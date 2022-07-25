@@ -8,12 +8,13 @@ pipeline{
 	agent any
 	stages {
 
-		stage('Build') {
-
-			steps {
-				dockerImage = docker.build imageName
-			}
-		}
+		stage('Building image') {
+      			steps{
+        			script {
+          				dockerImage = docker.build imageName
+        				}
+     					 }
+   			 }
 		   		
 		
 		stage('Uploading to Nexus') {
