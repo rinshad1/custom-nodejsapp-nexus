@@ -1,7 +1,7 @@
 pipeline{
 
 	environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub-cred')
+		DOCKERHUB_CREDENTIALS=credentials('nexus3')
 	}
 	agent any
 	stages {
@@ -9,19 +9,15 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t rinshad11/nodeapp:latest .'
+				sh 'docker build -t nodeapp1:latest .'
 			}
 		}
 		stage('Run Vulnerability Scan') {
       			steps {
-        			sh 'grype rinshad11/nodeapp:latest --scope AllLayers --fail-on=critical'
+        			sh 'grype nodeapp1:latest --scope AllLayers'
     	  		}
     		}
-    		stage('Finally done') {
-      			steps {
-        			echo 'if I made it here, no critical items were found'
-      			}
-   		}
+    		
 		
 		stage('Login') {
 
@@ -33,12 +29,12 @@ pipeline{
 		stage('Push') {
 
 			steps {
-				sh 'docker push rinshad11/nodeapp:latest'
+				sh 'docker push nodeapp1:latest'
 			}
 		}
 		stage('Remove Unused docker image') {
       		steps{
-         		sh 'docker rmi rinshad11/nodeapp:latest'
+         		sh 'docker rmi nodeapp1:latest'
 			}
     		}
 	
