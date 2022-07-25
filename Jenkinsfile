@@ -1,7 +1,9 @@
 pipeline{
 
 	environment {
-		DOCKERHUB_CREDENTIALS=credentials('nexus3')
+		registryCredentials = "nexus3"
+		imageName = "myapp1"
+		registry = "3.92.210.138:8443/"
 	}
 	agent any
 	stages {
@@ -9,34 +11,20 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t nodeapp1:latest .'
+				dockerImage = docker.build imageName
 			}
 		}
-		stage('Run Vulnerability Scan') {
-      			steps {
-        			sh 'grype nodeapp1:latest --scope AllLayers'
-    	  		}
-    		}
-    		
+		   		
 		
-		stage('Login') {
-
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker push nodeapp1:latest'
-			}
-		}
-		stage('Remove Unused docker image') {
-      		steps{
-         		sh 'docker rmi nodeapp1:latest'
-			}
-    		}
+		stage('Uploading to Nexus') {
+     			steps{  
+         			script {
+             				docker.withRegistry( 'http://'+registry, registryCredentials ) {
+             				dockerImage.push('latest')
+         				 }
+       				 }
+     			 }
+   		 }
 	
 	}
 
