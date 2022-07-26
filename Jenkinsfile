@@ -33,7 +33,7 @@ pipeline {
 	
 		stage('Remove Unused docker image') {
       			steps{
-         			sh 'docker rmi -f $(docker images -a -q)'
+         			sh 'docker rmi -f $(docker image ls -a -q)'
 				}
     		}
 	}
