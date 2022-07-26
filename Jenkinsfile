@@ -25,7 +25,7 @@ pipeline {
      			steps{  
          			script {
              				docker.withRegistry( 'http://'+registry, registryCredentials ) {
-             				dockerImage.push('v2')
+             				dockerImage.push('v3')
          				 }
        				 }
      			 }
