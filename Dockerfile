@@ -1,9 +1,6 @@
-# Use existing image from docker hub
-FROM alpine
-
-# Download and install some dependencies
-RUN apk add --update redis
-
-# Tell the image what to do when we start
-# Our container created from this image
-CMD ["redis-server"]
+FROM node:13-alpine
+RUN mkdir -p /home/app
+COPY ./* /home/app/
+WORKDIR /home/app
+RUN npm install
+CMD ["node", "index.js"]
