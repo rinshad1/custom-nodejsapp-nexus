@@ -1,4 +1,4 @@
-F# Use existing image from docker hub
+# Use existing image from docker hub
 FROM alpine
 
 # Download and install some dependencies
