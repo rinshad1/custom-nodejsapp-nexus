@@ -15,7 +15,11 @@ pipeline {
         				}
      					 }
    			 }
-		   		
+		 stage('Scan') {
+      			steps {
+        			sh 'trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL imageName'
+      				}
+    			}  		
 		
 		stage('Uploading to Nexus') {
      			steps{  
