@@ -1,9 +1,9 @@
 pipeline{
 
 	environment {
-		registryCredentials = "nexus3"
+		registryCredentials = "rinshad-nexus"
 		imageName = "myapp1"
-		registry = "3.92.210.138:8443/"
+		registry = "54.166.203.23:8443/"
 	}
 	agent any
 	stages {
