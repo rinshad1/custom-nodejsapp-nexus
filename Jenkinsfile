@@ -1,4 +1,6 @@
-pipeline{
+timestamps {
+
+node ('sr') { 
 
 	environment {
 		registryCredentials = "rinshad-nexus"
@@ -34,4 +36,5 @@ pipeline{
 			sh 'docker logout'
 		}
 	}
+}
 }
